@@ -8,6 +8,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-text: var(--text);
+  --color-text-secondary: #b3b3b3;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --color-surface: #1f1f1f;
+  --color-surface-light: #2a2a2a;
+  --color-primary: #e50914;
+  --color-secondary: #f5c518;
 }
 
 body {
