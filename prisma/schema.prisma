@@ -1,0 +1,87 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums based on User Types and Roles
+enum Role {
+  VISITOR
+  USER
+  CRITIC
+  ADMIN
+  MANAGER
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// RF-1, RF-2, RF-9, RF-11: User Class/Model
+model User {
+  id            String          @id @default(cuid())
+  name          String
+  email         String          @unique
+  password      String
+  role          Role            @default(USER)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  
+  reviews       Review[]
+  criticRequest CriticRequest?
+
+  @@map("users")
+}
+
+// RF-4, RF-5, RF-6: Movie Class/Model
+model Movie {
+  id          String    @id @default(cuid())
+  title       String
+  year        Int
+  synopsis    String    @db.Text
+  genre       String
+  cast        String // Stored as comma separated or JSON if preferred
+  posterUrl   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  reviews     Review[]
+
+  @@map("movies")
+}
+
+// RF-7, RF-8, RF-10: Review/Comment Class/Model
+model Review {
+  id              String    @id @default(cuid())
+  rating          Int // 0-10
+  comment         String    @db.Text
+  isProfessional  Boolean   @default(false) // For Critics
+  createdAt       DateTime  @default(now())
+  
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  movieId         String
+  movie           Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+// RF-3, RF-9.3: Critic Request Class/Model
+model CriticRequest {
+  id            String        @id @default(cuid())
+  justification String        @db.Text
+  status        RequestStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+  
+  userId        String        @unique
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("critic_requests")
+}
