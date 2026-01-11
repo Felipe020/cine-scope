@@ -1,16 +1,27 @@
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { User, Role } from '@/types';
 
 export class UserService {
   // RF-1, RF-2: Cadastro de Visitante/Usuário
   static async register(data: Pick<User, 'name' | 'email'> & { password: string }) {
-    // In a real app, hash password here
+    // Hashes password before storing
+    const bcrypt = await import('bcryptjs');
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    
     return await prisma.user.create({
       data: {
         ...data,
+        password: hashedPassword,
         role: 'USER', // Default role
       },
+    });
+  }
+
+  // Find user by email for login
+  static async findByEmail(email: string) {
+    return await prisma.user.findUnique({
+      where: { email },
     });
   }
 

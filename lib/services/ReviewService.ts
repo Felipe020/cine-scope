@@ -1,12 +1,18 @@
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { Review } from '@/types';
 
 export class ReviewService {
   // RF-7: Comentar e Avaliar
-  static async create(data: Pick<Review, 'rating' | 'comment' | 'userId' | 'movieId' | 'isProfessional'>) {
+  static async create(data: Pick<Review, 'rating' | 'comment' | 'userId' | 'movieId'> & { isProfessional?: boolean }) {
+    // Fetch user to check role if isProfessional is not provided?
+    // For simplicity, we just save what is passed.
+    
     return await prisma.review.create({
-      data,
+      data: {
+         ...data,
+         isProfessional: data.isProfessional || false
+      },
     });
   }
 

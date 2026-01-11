@@ -7,8 +7,24 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Call UserService.register API (implementation omitted for now)
-    console.log('Registering:', formData);
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert('Cadastro realizado com sucesso! Faça login.');
+        window.location.href = '/login';
+      } else {
+        const error = await response.json();
+        alert(error.message || 'Erro ao cadastrar');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao conectar ao servidor');
+    }
   };
 
   return (
