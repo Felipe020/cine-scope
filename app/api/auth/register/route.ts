@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 
     const user = await UserService.register({ name, email, password });
     
-    // Remove password from response
+   
     const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json(userWithoutPassword, { status: 201 });

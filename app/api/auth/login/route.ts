@@ -26,7 +26,9 @@ export async function POST(request: Request) {
       );
     }
 
+    // RF-10: Autenticação Segura 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
       return NextResponse.json(
         { message: 'Invalid credentials' },
@@ -34,20 +36,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create JWT token
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       JWT_SECRET,
       { expiresIn: '1d' }
     );
 
-    // Set cookie
     const cookieStore = await cookies();
     cookieStore.set('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: 60 * 60 * 24, 
       path: '/',
     });
 
