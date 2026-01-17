@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url = "file:./dev.db"
+  url      = "file:./dev.db"
 }
 
 // RF-1, RF-2, RF-9, RF-11: User Class/Model
@@ -70,3 +70,5 @@ model CriticRequest {
 
   @@map("critic_requests")
 }
+
+// Update datasource configuration as per new Prisma requirements

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { User, Mail, Lock, AlertCircle, Film } from 'lucide-react';
+import { User, Mail, Lock, Film } from 'lucide-react';
 import Button from './Button';
 
 export default function Register() {
@@ -15,15 +15,12 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [wantCritic, setWantCritic] = useState(false);
 
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
 
     if (password !== confirmPassword) {
-      setError('As senhas não coincidem.');
       return;
     }
 
@@ -42,10 +39,8 @@ export default function Register() {
         router.push('/login');
       } else {
         const data = await response.json();
-        setError(data.message || 'Falha ao cadastrar');
       }
     } catch (error) {
-      setError('Ocorreu um erro ao conectar com o servidor');
     } finally {
       setLoading(false);
     }
@@ -67,12 +62,6 @@ export default function Register() {
         <div className="bg-[var(--color-surface)] rounded-xl p-8 shadow-2xl border border-zinc-800/50">
           <form onSubmit={handleSubmit} className="space-y-5">
             
-            {error && (
-              <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 text-sm">
-                <AlertCircle size={18} />
-                <span>{error}</span>
-              </div>
-            )}
 
             <div>
               <label className="block mb-2 text-sm text-gray-400">Nome Completo</label>
@@ -84,7 +73,7 @@ export default function Register() {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Seu nome"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-[var(--color-background)] border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
                 />
               </div>
             </div>
@@ -99,7 +88,7 @@ export default function Register() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-[var(--color-background)] border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
                 />
               </div>
             </div>
@@ -114,7 +103,7 @@ export default function Register() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-[var(--color-background)] border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
                 />
               </div>
             </div>
@@ -129,7 +118,7 @@ export default function Register() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-[var(--color-background)] border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all"
                 />
               </div>
             </div>
