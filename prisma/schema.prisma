@@ -30,6 +30,7 @@ model Movie {
   year        Int
   synopsis    String
   genre       String
+  director    String?
   cast        String
   posterUrl   String?
   createdAt   DateTime  @default(now())

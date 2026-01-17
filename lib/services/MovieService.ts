@@ -1,4 +1,3 @@
-
 import { prisma } from '@/lib/db';
 import { Movie } from '@/types';
 
@@ -11,7 +10,20 @@ export class MovieService {
   }
 
   // RF-4: Exibir Catálogo
-  static async getAll() {
+  static async getAll(query: string = "") {
+    if (query) {
+      // RF-5: Busca fiel ao documento (apenas Título e Gênero)
+      return await prisma.movie.findMany({
+        where: {
+          OR: [
+            { title: { contains: query } },
+            { genre: { contains: query } },
+          ],
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+    }
+
     return await prisma.movie.findMany({
       orderBy: { createdAt: 'desc' },
     });
@@ -26,19 +38,6 @@ export class MovieService {
           include: { user: true },
           orderBy: { createdAt: 'desc' },
         },
-      },
-    });
-  }
-
-  // RF-5: Busca de Filmes
-  static async search(query: string) {
-    return await prisma.movie.findMany({
-      where: {
-        OR: [
-          { title: { contains: query, mode: 'insensitive' } },
-          { genre: { contains: query, mode: 'insensitive' } },
-          { cast: { contains: query, mode: 'insensitive' } },
-        ],
       },
     });
   }
