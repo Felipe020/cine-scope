@@ -174,7 +174,7 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
            )}
            
            {/* RF-7 */}
-           <div className="space-y-6">
+           <div className="space-y-6 pb-12">
              {reviews.length > 0 ? reviews.map((review) => (
                <div key={review.id} className={`p-6 rounded-xl border ${review.isProfessional ? 'bg-yellow-900/10 border-yellow-700/30' : 'bg-[#121212] border-zinc-800'}`}>
                  <div className="flex justify-between items-start mb-3">
