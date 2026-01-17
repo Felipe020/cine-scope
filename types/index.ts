@@ -17,6 +17,7 @@ export interface Movie {
   year: number;
   synopsis: string;
   genre: string;
+  director?: string;
   cast: string;
   posterUrl?: string;
   createdAt: Date;
