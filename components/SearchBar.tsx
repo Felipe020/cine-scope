@@ -5,32 +5,28 @@ import { Search } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const CATEGORIES = [
-  "All", "Action", "Comedy", "Drama", "Horror", "Sci-Fi", 
-  "Romance", "Thriller", "Fantasy", "Adventure", "Mystery"
+  "Todos", "Ação", "Comédia", "Drama", "Terror", "Ficção Científica", 
+  "Romance", "Suspense", "Fantasia", "Aventura", "Mistério"
 ];
 
 export default function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // Estado local para controle imediato do input
   const [term, setTerm] = useState(searchParams.get('q') || "");
 
-  // Atualiza o input se a URL mudar externamente (ex: voltar do navegador)
   useEffect(() => {
     setTerm(searchParams.get('q') || "");
   }, [searchParams]);
 
-  // Debounce: Atualiza a URL 300ms após o usuário parar de digitar
   useEffect(() => {
     const handler = setTimeout(() => {
       const currentQuery = searchParams.get('q') || "";
       
-      // Só atualiza se o termo mudou em relação à URL atual
       if (term !== currentQuery) {
         const params = new URLSearchParams(searchParams.toString());
         
-        if (term && term !== "All") {
+        if (term && term !== "Todos") {
           params.set('q', term);
         } else {
           params.delete('q');
@@ -44,7 +40,7 @@ export default function SearchBar() {
   }, [term, router, searchParams]);
 
   function handleCategoryClick(category: string) {
-    if (category === "All") {
+    if (category === "Todos") {
       setTerm("");
     } else {
       setTerm(category);
@@ -56,7 +52,7 @@ export default function SearchBar() {
       <div className="relative mb-6">
         <input
           type="text"
-          placeholder="Search movies..."
+          placeholder="Pesquisar filmes..."
           value={term}
           onChange={(e) => setTerm(e.target.value)}
           className="w-full py-4 pl-12 pr-4 text-white bg-[#121212] border border-zinc-800 rounded-xl focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-all placeholder-zinc-500"
@@ -66,7 +62,7 @@ export default function SearchBar() {
 
       <div className="flex flex-wrap gap-3">
         {CATEGORIES.map((category) => {
-          const isActive = category === "All" 
+          const isActive = category === "Todos" 
             ? term === "" 
             : term.toLowerCase() === category.toLowerCase();
 

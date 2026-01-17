@@ -30,7 +30,7 @@ export default async function Home(props: {
       <SearchBar />
 
       <h1 className="text-3xl font-bold mb-8 text-white">
-        {query ? `Results for "${query}"` : "Most Popular"}
+        {query ? `Results for "${query}"` : "Mais Populares"}
       </h1>
       
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">

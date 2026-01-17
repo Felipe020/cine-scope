@@ -11,7 +11,7 @@ export default function AdminMoviesPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Busca os filmes via API (client-side para permitir busca dinâmica)
+  // Busca os filmes via API 
   useEffect(() => {
     fetch('/api/movies')
       .then(res => res.json())
@@ -57,7 +57,7 @@ export default function AdminMoviesPage() {
           </Link>
         </div>
 
-        {/* Barra de Busca */}
+        
         <div className="mb-8">
           <div className="relative max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={20} />
@@ -71,7 +71,7 @@ export default function AdminMoviesPage() {
           </div>
         </div>
 
-        {/* Tabela */}
+        
         <div className="bg-[#121212] rounded-xl border border-zinc-800 overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead className="bg-[#0f0f0f] border-b border-zinc-800">

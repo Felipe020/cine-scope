@@ -4,13 +4,13 @@ import { prisma } from '@/lib/db';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { addReview } from './actions';
-import { Star, Calendar, User, Heart, MessageSquare } from 'lucide-react';
+import { Star, Calendar, User } from 'lucide-react';
 
-// Component Details (RF-4, RF-7, RF-8)
+// RF-4, RF-7, RF-8
 export default async function MovieDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  // Busca o filme (RF-4: Visualizar detalhes)
+  // RF-4
   const movie = await prisma.movie.findUnique({
     where: { id },
   });
@@ -19,14 +19,14 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
     notFound();
   }
 
-  // Busca reviews (RF-7: Visualizar avaliações)
+  // RF-7
   const reviews = await prisma.review.findMany({
     where: { movieId: id },
     include: { user: true },
     orderBy: { createdAt: 'desc' }
   });
 
-  // Get current user from token para permitir avaliação (RF-8)
+  // RF-8
   const cookieStore = await cookies();
   const token = cookieStore.get('auth_token')?.value;
   let userId: string | null = null;
@@ -43,7 +43,6 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       
-      {/* Hero Section (Visual) */}
       <div className="relative w-full h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10" />
         {movie.posterUrl && (
@@ -60,7 +59,6 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
       <div className="max-w-7xl mx-auto px-6 -mt-80 relative z-20">
         <div className="flex flex-col md:flex-row gap-8">
           
-          {/* Poster Column */}
           <div className="flex-shrink-0 w-72 rounded-xl overflow-hidden shadow-2xl border-4 border-[#1a1a1a]">
             {movie.posterUrl ? (
               <Image 
@@ -78,7 +76,6 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
             )}
           </div>
 
-          {/* Info Column (RF-4) */}
           <div className="flex-1 pt-4">
             <h1 className="text-5xl font-bold mb-4 text-white drop-shadow-md">{movie.title}</h1>
             
@@ -137,13 +134,12 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
           </div>
         </div>
 
-        {/* Reviews Section (RF-7, RF-8) */}
         <div className="mt-20 max-w-4xl">
            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
              Avaliações e Comentários <span className="text-zinc-500 text-lg font-normal">({reviews.length})</span>
            </h3>
 
-           {/* Form to Add Review (RF-8) */}
+           {/* RF-8 */}
            {userId ? (
               <form action={addReview.bind(null, movie.id, userId)} className="bg-[#121212] p-6 rounded-xl border border-zinc-800 mb-8">
                   <h3 className="font-semibold mb-4 text-zinc-300">Deixe sua avaliação</h3>
@@ -177,7 +173,7 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
               </div>
            )}
            
-           {/* List Reviews (RF-7) */}
+           {/* RF-7 */}
            <div className="space-y-6">
              {reviews.length > 0 ? reviews.map((review) => (
                <div key={review.id} className={`p-6 rounded-xl border ${review.isProfessional ? 'bg-yellow-900/10 border-yellow-700/30' : 'bg-[#121212] border-zinc-800'}`}>
@@ -188,7 +184,7 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
                      </div>
                      <div>
                        <div className="font-bold text-white flex items-center gap-2">
-                         {review.user?.name || 'Anonymous'}
+                         {review.user?.name || 'Anônimo'}
                          {review.user?.role === 'CRITIC' && (
                            <span className="text-[10px] bg-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded border border-yellow-500/30 uppercase tracking-wider font-bold">
                              Especialista

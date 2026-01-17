@@ -99,7 +99,7 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" className="w-4 h-4 rounded accent-[var(--color-primary)] bg-gray-700 border-gray-600" />
                 <span className="text-sm text-[var(--color-text-secondary)]">Lembre-me</span>
@@ -107,7 +107,7 @@ export default function Login() {
               <Link href="/forgot-password" className="text-sm text-[var(--color-primary)] hover:underline">
                 Esqueceu sua senha?
               </Link>
-            </div>
+            </div> */}
 
             <Button 
               type="submit" 

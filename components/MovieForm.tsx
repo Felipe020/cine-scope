@@ -10,8 +10,8 @@ interface MovieFormProps {
 }
 
 const GENRES_LIST = [
-  "Action", "Comedy", "Drama", "Horror", "Sci-Fi", 
-  "Romance", "Thriller", "Fantasy", "Adventure", "Mystery"
+  "Ação", "Comédia", "Drama", "Terror", "Ficção Científica", 
+  "Romance", "Suspense", "Fantasia", "Aventura", "Mistério"
 ];
 
 export default function MovieForm({ initialData, isEditing = false }: MovieFormProps) {
@@ -112,36 +112,36 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
     <form onSubmit={handleSubmit} className="w-full max-w-5xl mx-auto space-y-6">
       
       <div className="space-y-2">
-        <label className="text-sm text-zinc-400">Title *</label>
+        <label className="text-sm text-zinc-400">Título *</label>
         <input 
           type="text" 
           required
           value={formData.title}
           onChange={(e) => setFormData({...formData, title: e.target.value})}
           className="w-full bg-[#121212] border border-zinc-800 rounded-lg p-3 text-white focus:border-zinc-600 focus:outline-none placeholder-zinc-600"
-          placeholder="Ex: Quantum Shadows"
+          placeholder="Ex: Sombras Quânticas"
         />
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-zinc-400">Poster URL *</label>
+        <label className="text-sm text-zinc-400">URL do Poster *</label>
         <div className="flex gap-4">
           <input 
             type="text" 
             value={formData.posterUrl}
             onChange={(e) => setFormData({...formData, posterUrl: e.target.value})}
             className="flex-1 bg-[#121212] border border-zinc-800 rounded-lg p-3 text-white focus:border-zinc-600 focus:outline-none placeholder-zinc-600"
-            placeholder="https://example.com/poster.jpg"
+            placeholder="https://exemplo.com/poster.jpg"
           />
           <button type="button" className="px-6 py-2 bg-transparent text-red-500 border border-red-600 rounded-lg flex items-center gap-2 hover:bg-red-900/10 transition-colors">
-            <Upload size={18} /> Upload
+            <Upload size={18} /> Enviar
           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="text-sm text-zinc-400">Year *</label>
+          <label className="text-sm text-zinc-400">Ano *</label>
           <input 
             type="number" 
             required
@@ -152,19 +152,19 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm text-zinc-400">Director *</label>
+          <label className="text-sm text-zinc-400">Diretor *</label>
           <input 
             type="text" 
             value={formData.director}
             onChange={(e) => setFormData({...formData, director: e.target.value})}
             className="w-full bg-[#121212] border border-zinc-800 rounded-lg p-3 text-white focus:border-zinc-600 focus:outline-none placeholder-zinc-600"
-            placeholder="Director Name"
+            placeholder="Nome do Diretor"
           />
         </div>
       </div>
 
       <div className="space-y-3">
-        <label className="text-sm text-zinc-400">Genres * (select at least one)</label>
+        <label className="text-sm text-zinc-400">Gêneros * (selecione pelo menos um)</label>
         <div className="flex flex-wrap gap-2">
           {GENRES_LIST.map(genre => (
             <button
@@ -184,21 +184,21 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
       </div>
 
       <div className="space-y-3">
-        <label className="text-sm text-zinc-400">Cast Members</label>
+        <label className="text-sm text-zinc-400">Integrantes do Elenco</label>
         <div className="flex gap-2">
           <input 
             type="text" 
             value={castMember}
             onChange={(e) => setCastMember(e.target.value)}
             className="flex-1 bg-[#121212] border border-zinc-800 rounded-lg p-3 text-white focus:border-zinc-600 focus:outline-none placeholder-zinc-600"
-            placeholder="Add cast member name"
+            placeholder="Adicionar nome do integrante"
           />
           <button 
             type="button" 
             onClick={addCastMember}
             className="px-6 py-2 bg-transparent text-red-500 border border-red-600 rounded-lg font-medium hover:bg-red-900/10"
           >
-            Add
+            Adicionar
           </button>
         </div>
         
@@ -215,14 +215,14 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-zinc-400">Synopsis *</label>
+        <label className="text-sm text-zinc-400">Sinopse *</label>
         <textarea 
           required
           rows={4}
           value={formData.synopsis}
           onChange={(e) => setFormData({...formData, synopsis: e.target.value})}
           className="w-full bg-[#121212] border border-zinc-800 rounded-lg p-3 text-white focus:border-zinc-600 focus:outline-none resize-none placeholder-zinc-600"
-          placeholder="Write a brief synopsis of the movie..."
+          placeholder="Escreva uma breve sinopse do filme..."
         />
       </div>
 
@@ -232,14 +232,14 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
           disabled={loading}
           className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors"
         >
-          {loading ? 'Saving...' : (isEditing ? 'Update Movie' : 'Add Movie')}
+          {loading ? 'Salvando...' : (isEditing ? 'Atualizar Filme' : 'Adicionar Filme')}
         </button>
         <button 
           type="button" 
           onClick={() => router.back()}
           className="flex-1 py-3 bg-transparent border border-red-600 text-red-500 hover:bg-red-900/10 font-bold rounded-lg transition-colors"
         >
-          Cancel
+          Cancelar
         </button>
       </div>
     </form>

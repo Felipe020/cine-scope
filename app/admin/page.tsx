@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, Plus, Pencil, Trash2, User as UserIcon, ShieldCheck } from 'lucide-react';
+import { Search, Plus, Pencil, Trash2, User as UserIcon } from 'lucide-react';
 
 interface Movie {
   id: string;
@@ -20,7 +20,6 @@ interface User {
   role: string;
 }
 
-// RF-11: Acesso de Administrador
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState('movies');
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,7 +51,7 @@ export default function AdminPage() {
   }, []);
 
   const handleDeleteMovie = async (id: string) => {
-    if (confirm('Excluir este filme?')) {
+    if (confirm('Deseja realmente excluir este filme?')) {
       await fetch(`/api/auth/movies/${id}`, { method: 'DELETE' });
       setMovies(movies.filter((m) => m.id !== id));
     }
@@ -88,12 +87,12 @@ export default function AdminPage() {
         
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
-            <p className="text-zinc-400">Painel de Controle</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Painel Administrativo</h1>
+            <p className="text-zinc-400">Controle de Conteúdo e Usuários</p>
           </div>
           {activeTab === 'movies' && (
             <Link href="/admin/movies/new" className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition-colors">
-              <Plus size={18} /> Add Movie
+              <Plus size={18} /> Adicionar Filme
             </Link>
           )}
         </div>
@@ -103,7 +102,7 @@ export default function AdminPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={20} />
             <input
               type="text"
-              placeholder={`Search in ${activeTab}...`}
+              placeholder={`Pesquisar em ${activeTab === 'movies' ? 'filmes' : 'usuários'}...`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-[#121212] border border-zinc-800 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-zinc-600"
@@ -112,10 +111,10 @@ export default function AdminPage() {
 
           <div className="flex gap-8 border-b border-zinc-800">
             <button onClick={() => setActiveTab('movies')} className={`pb-3 font-medium transition-colors ${activeTab === 'movies' ? 'text-red-500 border-b-2 border-red-500' : 'text-zinc-400 hover:text-white'}`}>
-              Movies ({movies.length})
+              Filmes ({movies.length})
             </button>
             <button onClick={() => setActiveTab('users')} className={`pb-3 font-medium transition-colors ${activeTab === 'users' ? 'text-red-500 border-b-2 border-red-500' : 'text-zinc-400 hover:text-white'}`}>
-              Users ({users.length})
+              Usuários ({users.length})
             </button>
           </div>
         </div>
@@ -162,10 +161,10 @@ export default function AdminPage() {
             <table className="w-full text-left border-collapse">
               <thead className="bg-[#0f0f0f] border-b border-zinc-800">
                 <tr>
-                  <th className="p-4 text-zinc-400 font-medium">User</th>
+                  <th className="p-4 text-zinc-400 font-medium">Usuário</th>
                   <th className="p-4 text-zinc-400 font-medium">Email</th>
-                  <th className="p-4 text-zinc-400 font-medium">Role</th>
-                  <th className="p-4 text-zinc-400 font-medium text-right">Actions</th>
+                  <th className="p-4 text-zinc-400 font-medium">Cargo</th>
+                  <th className="p-4 text-zinc-400 font-medium text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -191,8 +190,8 @@ export default function AdminPage() {
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         {user.role !== 'ADMIN' && user.role !== 'CRITIC' && (
-                          <button onClick={() => handlePromoteUser(user.id)} title="Promover" className="px-3 py-1 bg-yellow-600/20 text-yellow-500 border border-yellow-600/50 rounded hover:bg-yellow-600/40 text-xs font-medium transition-colors">
-                             Promote
+                          <button onClick={() => handlePromoteUser(user.id)} className="px-3 py-1 bg-yellow-600/20 text-yellow-500 border border-yellow-600/50 rounded hover:bg-yellow-600/40 text-xs font-medium transition-colors">
+                             Promover
                           </button>
                         )}
                         <button onClick={() => handleDeleteUser(user.id)} className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-900/20 rounded-lg">
